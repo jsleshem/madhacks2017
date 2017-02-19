@@ -34,4 +34,7 @@ def move_wall():
         "swing": "3"
     }
 
+    # USE THE LIST
+    serial_handler.write(bytes([]))
+
     return "success"
