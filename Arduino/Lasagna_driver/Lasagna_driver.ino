@@ -18,6 +18,8 @@
 #define center3 10
 #define center4 11
 
+#define STEP_AMOUNT 520
+
 // servo object declarations
 Servo panS;
 Servo tiltS;
@@ -26,6 +28,9 @@ Servo swingS;
 Servo gateS;
 
 Stepper center(100, center1, center2, center3, center4);
+
+bool swingState = false;
+bool gateState = false;
 
 void setup() {
   // put your setup code here, to run once:
@@ -52,16 +57,39 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
+  if (Serial.available()) {
+    if ((char)Serial.read() == '!') {
+      char readin = (char)Serial.read();
+      if (readin == '1' || readin == '2') {
+        gateState = !gateState;
+      }
+      else if (readin == '3') {
+        swingState = !swingState;
+      }
+      else if (readin == '4') {
+        center.step(STEP_AMOUNT);
+      }
+    }
+  }
+
   // Read joystick values
   int lrread = analogRead(LR);
   int udread = analogRead(UD);
-  //Serial.println(lrread);
-  //Serial.println(udread);
 
   panS.write(map(lrread,0,1023,45,135));
   tiltS.write(map(udread,30,1023,45,135));
 
-  center.step(1);
+  if (gateState) {
+    gateS.write(65);
+  }
+  else {
+    gateS.write(75);
+  }
 
-  //delay(5);
+  if (swingState) {
+    swingS.write(90);
+  }
+  else {
+    swingS.write(10);
+  }
 }
