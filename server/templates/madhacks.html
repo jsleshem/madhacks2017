@@ -6,12 +6,21 @@
 </head>
 <body>
 
+<div class="wrapper">
+<p><span id="seconds">00</span>:<span id="tens">00</span></p>
+<button id="button-start">Start</button>
+<button id="button-stop">Stop</button>
+<button id="button-reset">Reset</button>
+</div> 
+
 <div>
     <img src="{{url_for('static', filename='img/bg.png')}}" id="maze" style="margin:auto;display:block">
     <div class="wall" id="swing"></div>
     <div class="wall" id="alt1"></div>
     <div class="wall" id="alt2"></div>
+    <img src="{{url_for('static', filename='img/center.png')}}" id="center">
+    <img src="{{url_for('static', filename='img/final.png')}}" id="final">
 </div>
-<img src="{{url_for('static', filename='img/center.png')}}" id="center">
+
 
 </body>

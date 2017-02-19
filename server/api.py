@@ -2,7 +2,7 @@ from . import app
 from .serial import SerialHandler
 from flask import request, render_template
 
-'''
+
 serial_handler = SerialHandler()
 available_ports = serial_handler.available_ports()
 
@@ -19,7 +19,8 @@ while True:
 
 START_SIG = 0x21
 serial_handler.connect()
-'''
+
+
 
 @app.route("/")
 def index():
@@ -31,10 +32,11 @@ def move_wall():
     wall_map = {
         "alt1": "1",
         "alt2": "2",
-        "swing": "3"
+        "swing": "3",
+	"center": "4"
     }
 
     # USE THE LIST
-    serial_handler.write(bytes([]))
+    serial_handler.write(bytes(['!',wall_map[wall_id]]))
 
     return "success"

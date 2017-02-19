@@ -18,6 +18,63 @@ $(function() {
 		};
 	});*/
 
+
+  var seconds = 00; 
+  var tens = 00; 
+  var appendTens = document.getElementById("tens")
+  var appendSeconds = document.getElementById("seconds")
+  var buttonStart = document.getElementById('button-start');
+  var buttonStop = document.getElementById('button-stop');
+  var buttonReset = document.getElementById('button-reset');
+  var Interval ;
+
+  buttonStart.onclick = function() {
+    
+     clearInterval(Interval);
+     Interval = setInterval(startTimer, 10);
+  }
+  
+    buttonStop.onclick = function() {
+       clearInterval(Interval);
+  }
+  
+
+  buttonReset.onclick = function() {
+     clearInterval(Interval);
+    tens = "00";
+  	seconds = "00";
+    appendTens.innerHTML = tens;
+  	appendSeconds.innerHTML = seconds;
+  }
+  
+   
+  
+  function startTimer () {
+    tens++; 
+    
+    if(tens < 9){
+      appendTens.innerHTML = "0" + tens;
+    }
+    
+    if (tens > 9){
+      appendTens.innerHTML = tens;
+      
+    } 
+    
+    if (tens > 99) {
+      console.log("seconds");
+      seconds++;
+      appendSeconds.innerHTML = "0" + seconds;
+      tens = 0;
+      appendTens.innerHTML = "0" + 0;
+    }
+    
+    if (seconds > 9){
+      appendSeconds.innerHTML = seconds;
+    }
+  
+  }
+
 	class Wall {
 	    constructor(id, active) {
             this.id = id;
@@ -31,13 +88,13 @@ $(function() {
 	    }
 
 	    activate() {
-	        $(this.id).css({
+	        $("#"+this.id).css({
 	            opacity: 1
 	        });
 	    }
 
 	    deactivate() {
-	        $(this.id).css({
+	        $("#"+this.id).css({
 	            opacity: 0.3
 	        });
 	    }
@@ -55,13 +112,13 @@ $(function() {
 
 	var params = new Object();
 
-	let alt1 = new Wall("#alt1", false);
-	let alt2 = new Wall("#alt2", true);
+	let alt1 = new Wall("alt1", false);
+	let alt2 = new Wall("alt2", true);
 
 	let alts = [alt1, alt2];
     var altsDisabled = false;
 
-	$(alt1.id).click(function(event) {
+	$("#" + alt1.id).click(function(event) {
 	    if (altsDisabled) {
 	        return;
 	    }
@@ -73,7 +130,7 @@ $(function() {
 	    setTimeout(function() { altsDisabled = false; }, 3000);
 	});
 
-	$(alt2.id).click(function(event) {
+	$("#" + alt2.id).click(function(event) {
 	    if (altsDisabled) {
 	        return;
 	    }
@@ -107,6 +164,7 @@ $(function() {
 
 
 	var wheel_position = 0;
+	var wheel_angle = 90;
 	var centerDisabled = false;
 
 	$("#center").click(function(event) {
@@ -114,14 +172,25 @@ $(function() {
 		if (centerDisabled)
 			return;
 
-		wheel_position = (wheel_position + 90) % 360;
-
 		moveWall("center");
 
-		/*$("#center").animate({
-			"-webkit-transform": 	"rotate("+wheel_position+"deg)",
-			transform:		"rotate("+wheel_position+"deg)"
-		});*/
+		$("#center").css({
+			"-webkit-animation-name": 	"rotate"+wheel_position,
+			"-webkit-animation-duration":	"1s",
+			"-webkit-animation-iteration-count":	"1",
+			"-webkit-animation-timing-function":	"linear",
+                        "-moz-animation-name":       "rotate"+wheel_position,
+                        "-moz-animation-duration":   "1s",
+                        "-moz-animation-iteration-count":    "1",
+                        "-moz-animation-timing-function":    "linear",
+
+			"-webkit-transform":		"rotate("+wheel_angle+"deg)",
+			"-moz-transform":		"rotate("+wheel_angle+"deg)"
+
+		});
+
+		wheel_position = (wheel_position + 1) % 4;
+		wheel_angle = (wheel_position + 1) * 90;
 
 		centerDisabled = true;
 		setTimeout(function(){centerDisabled = false;}, 3000);
