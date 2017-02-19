@@ -32,6 +32,8 @@ Stepper center(100, center1, center2, center3, center4);
 bool swingState = false;
 bool gateState = false;
 
+bool cond = false;
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -57,19 +59,49 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-  if (Serial.available()) {
-    if ((char)Serial.read() == '!') {
-      char readin = (char)Serial.read();
-      if (readin == '1' || readin == '2') {
+//  if (Serial.available() > 0) {
+//    byte cond = Serial.read();
+//    byte readin = Serial.read();
+//    if (cond == 0x21) {
+//      Serial.println("yo");
+//      //byte readin = Serial.read();
+//      Serial.println(readin, HEX);
+//      if (readin == 0x31 || readin == 0x32) {
+//        gateState = !gateState;
+//        Serial.println("hey");
+//      }
+//      else if (readin == 0x33) {
+//        swingState = !swingState;
+//      }
+//      else if (readin == 0x34) {
+//        center.step(STEP_AMOUNT);
+//      }
+//    }
+//  }
+
+  //bool cond = false;
+  while (Serial.available() > 0) {
+    byte readin = Serial.read();
+    if (readin == 0x21) {
+      cond = true;
+      //Serial.println("Set cond to true");
+    }
+    else if (cond) {
+      //Serial.println("Got inside the if statement");
+      if (readin == 0x31 || readin == 0x32) {
         gateState = !gateState;
+        //Serial.println("hey");
       }
-      else if (readin == '3') {
+      else if (readin == 0x33) {
         swingState = !swingState;
       }
-      else if (readin == '4') {
+      else if (readin == 0x34) {
         center.step(STEP_AMOUNT);
       }
+
+      cond = false;
     }
+    //Serial.println(readin, HEX);
   }
 
   // Read joystick values
@@ -80,10 +112,10 @@ void loop() {
   tiltS.write(map(udread,30,1023,45,135));
 
   if (gateState) {
-    gateS.write(65);
+    gateS.write(60);
   }
   else {
-    gateS.write(75);
+    gateS.write(77);
   }
 
   if (swingState) {
