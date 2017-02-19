@@ -1,0 +1,30 @@
+img {
+    width: 500px;
+    max-width: 100%;
+}
+
+.wall {
+    position: absolute;
+    background-color: green;
+}
+
+#swing {
+    top: 41px;
+    right: 490px;
+    height: 5px;
+    width: 80px;
+}
+
+#alt1 {
+    top: 117px;
+    left: 543px;
+    height: 5px;
+    width: 60px;
+}
+
+#alt2 {
+    top: 21px;
+    right: 720px;
+    height: 97px;
+    width: 5px;
+}

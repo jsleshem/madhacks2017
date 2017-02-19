@@ -2,10 +2,16 @@
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="{{url_for('static', filename='js/client.js')}}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
 </head>
 <body>
 
-<img src="{{url_for('static', filename='img/bg.png')}}" id="maze" style="margin:auto;display:block">
+<div>
+    <img src="{{url_for('static', filename='img/bg.png')}}" id="maze" style="margin:auto;display:block">
+    <div class="wall" id="swing"></div>
+    <div class="wall" id="alt1"></div>
+    <div class="wall" id="alt2"></div>
+</div>
 <img src="{{url_for('static', filename='img/center.png')}}" id="center">
 
 </body>
